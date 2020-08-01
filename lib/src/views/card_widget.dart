@@ -1,7 +1,13 @@
+import 'package:apod_app/src/models/apod_model.dart';
 import 'package:flutter/cupertino.dart';
 
 class CupertinoCard extends StatelessWidget {
-  const CupertinoCard({Key key}) : super(key: key);
+  const CupertinoCard(
+      {Key key, @required this.apodImage, @required this.icon, this.onPressed})
+      : super(key: key);
+  final ApodImage apodImage;
+  final IconData icon;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -11,8 +17,7 @@ class CupertinoCard extends StatelessWidget {
         FadeInImage(
           height: 300,
           placeholder: AssetImage('assets/cupertino_activity_indicator.gif'),
-          image:
-              NetworkImage('https://jooinn.com/images/perfect-landscape-1.jpg'),
+          image: NetworkImage(apodImage.url),
           fit: BoxFit.cover,
           fadeInDuration: Duration(milliseconds: 200),
         ),
@@ -93,7 +98,13 @@ Widget _cardTipo3(BuildContext contex) {
             ],
           ),
         ),
-      )
+      ),
+      Positioned(
+          top: 5,
+          right: 5,
+          child: CupertinoButton(
+              //child: Icon(icon),
+              onPressed: null))
     ],
   );
 

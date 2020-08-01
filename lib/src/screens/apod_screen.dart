@@ -1,3 +1,5 @@
+import 'package:apod_app/src/models/apod_model.dart';
+import 'package:apod_app/src/providers/apod_provider.dart';
 import 'package:apod_app/src/views/card_widget.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -11,6 +13,8 @@ class ApodScreen extends StatefulWidget {
 class _ApodScreenState extends State<ApodScreen> {
   int _selectedIndex = 0;
   List<Widget> _childrens = List();
+
+  final _apodProvider = ApodProvider();
 
   @override
   void initState() {
@@ -74,10 +78,24 @@ class _ApodScreenState extends State<ApodScreen> {
   }
 
   Widget _apodRecentList() {
-    return ListView(
-      children: <Widget>[
-        CupertinoCard(),
-      ],
-    );
+    return FutureBuilder(
+        future: _apodProvider.getRecentImages(),
+        builder:
+            (BuildContext context, AsyncSnapshot<List<ApodImage>> snapshot) {
+          if (snapshot.hasData) {
+            return _cardList(snapshot.data);
+          }
+        });
+  }
+
+  Widget _cardList(List<ApodImage> imageList) {
+    return ListView.builder(
+        itemCount: imageList.length,
+        itemBuilder: (BuildContext context, int index) {
+          return CupertinoCard(
+              apodImage: imageList[index],
+              onPressed: () => print(''),
+              icon: CupertinoIcons.heart_solid);
+        });
   }
 }
