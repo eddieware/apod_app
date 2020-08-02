@@ -7,7 +7,9 @@ class CupertinoCard extends StatelessWidget {
       : super(key: key);
   final ApodImage apodImage;
   final IconData icon;
-  final VoidCallback onPressed;
+  final VoidCallback
+      onPressed; //VoidCallback debido a que es un evento especial
+  //en la parametrizacion para recibir una funcion como parametro
 
   @override
   Widget build(BuildContext context) {
@@ -15,16 +17,16 @@ class CupertinoCard extends StatelessWidget {
       alignment: Alignment.bottomCenter,
       children: <Widget>[
         FadeInImage(
-          height: 300,
+          //height: 300,
           placeholder: AssetImage('assets/cupertino_activity_indicator.gif'),
           image: NetworkImage(apodImage.url),
           fit: BoxFit.cover,
           fadeInDuration: Duration(milliseconds: 200),
         ),
         Opacity(
-          opacity: .6,
+          opacity: .7,
           child: Container(
-            height: 80.0,
+            height: 90.0,
             width: double.infinity,
             color: CupertinoColors.black,
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -32,17 +34,33 @@ class CupertinoCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  '2020-07-04',
+                  apodImage.date,
                   style: TextStyle(color: CupertinoColors.white),
                 ),
-                Text(
-                  'Los Azufres Michoacán',
-                  style:
-                      TextStyle(color: CupertinoColors.white, fontSize: 25.0),
+                Flexible(
+                  // para si el texto se pasa evitar el overflow
+                  // y se hagan dos renglones en lugar de uno
+                  child: Text(apodImage.title,
+                      style: CupertinoTheme.of(context)
+                          .textTheme
+                          .navActionTextStyle
+                          .copyWith(
+                              color: CupertinoColors.white, fontSize: 20.0)),
                 )
               ],
             ),
           ),
+        ),
+        Positioned(
+          top: 5,
+          right: 5,
+          child: CupertinoButton(
+              child: Icon(
+                icon,
+                color: CupertinoColors.white,
+                size: 30,
+              ),
+              onPressed: onPressed),
         )
       ],
     );
