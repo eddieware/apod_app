@@ -18,10 +18,9 @@ class _ApodScreenState extends State<ApodScreen> {
 
   @override
   void initState() {
-    
     super.initState();
     _childrens.add(_apodRecentList());
-    _childrens.add(Text('Contenido Random'));
+    _childrens.add(_apodRandomList());
     _childrens.add(Text('Contenido Saved'));
   }
 
@@ -81,6 +80,24 @@ class _ApodScreenState extends State<ApodScreen> {
     return FutureBuilder(
         //para construir en base a una sentencia future
         future: _apodProvider.getRecentImages(),
+        builder:
+            (BuildContext context, AsyncSnapshot<List<ApodImage>> snapshot) {
+          if (snapshot.hasData) {
+            // al cargar los datos los muestra
+            return _cardList(snapshot.data);
+          } else {
+            //si no los carga aun muestra el activity indicator
+            return Center(
+              child: CupertinoActivityIndicator(),
+            );
+          }
+        });
+  }
+
+  Widget _apodRandomList() {
+    return FutureBuilder(
+        //para construir en base a una sentencia future
+        future: _apodProvider.getRandomImages(),
         builder:
             (BuildContext context, AsyncSnapshot<List<ApodImage>> snapshot) {
           if (snapshot.hasData) {
