@@ -33,10 +33,13 @@ class ApodImage {
 
 class ApodList {
   List<ApodImage> items = List();
+
   ApodList();
   ApodList.fromJsonList(List<dynamic> jsonList) {
-    if (jsonList == null) return;
+    //modelo para trabajar el json
+    if (jsonList == null) return; //si es nulo regresa
     for (var item in jsonList) {
+      //si no si no haz un for y metelos a apodImage
       final apodImage = ApodImage.fromJsonMap(item);
       items.add(apodImage);
     }

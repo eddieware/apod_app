@@ -79,16 +79,24 @@ class _ApodScreenState extends State<ApodScreen> {
 
   Widget _apodRecentList() {
     return FutureBuilder(
+        //para construir en base a una sentencia future
         future: _apodProvider.getRecentImages(),
         builder:
             (BuildContext context, AsyncSnapshot<List<ApodImage>> snapshot) {
           if (snapshot.hasData) {
+            // al cargar los datos los muestra
             return _cardList(snapshot.data);
+          } else {
+            //si no los carga aun muestra el activity indicator
+            return Center(
+              child: CupertinoActivityIndicator(),
+            );
           }
         });
   }
 
   Widget _cardList(List<ApodImage> imageList) {
+    //crear lista de cartas
     return ListView.builder(
         itemCount: imageList.length,
         itemBuilder: (BuildContext context, int index) {
