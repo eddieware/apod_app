@@ -18,7 +18,7 @@ class _ApodScreenState extends State<ApodScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    
     super.initState();
     _childrens.add(_apodRecentList());
     _childrens.add(Text('Contenido Random'));
